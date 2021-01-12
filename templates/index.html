@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          padding:5px;
+        }
+    </style>
+    <script>
+        books = []
+        document.addEventListener('DOMContentLoaded',function(){
+            fetch('http://127.0.0.1:5000/books/all')
+            .then(resp => resp.json())
+            .then(data => {
+                for (var i = 0; i < data.length; i++) {
+                    addBook(data[i])
+                }
+            })
+        })
+
+        function addBook(book) {
+            let table = document.getElementById('all-books');
+            let tr = document.createElement('tr');
+            let id = document.createElement('td'); id.innerText = book.id;
+            let author = document.createElement('td'); author.innerText = book.author;
+            let title = document.createElement('td'); title.innerText = book.title;
+
+            tr.appendChild(id);
+            tr.appendChild(author);
+            tr.appendChild(title);
+
+            table.appendChild(tr);
+        }
+    </script>
+    <body style="margin:10px;">
+        <h1>Books from Books API</h1>
+        <table id="all-books">
+            <tr>
+                <th>ID</th>
+                <th>Author</th>
+                <th>Title</th>
+            </tr>
+        </table>
+    </body>
+</html>
